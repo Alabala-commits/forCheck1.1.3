@@ -4,7 +4,6 @@ import dao.UserDao;
 import model.User;
 import util.Util;
 
-import javax.naming.NamingException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -103,9 +102,7 @@ public class UserDaoJDBCImpl implements UserDao {
             rs   = stmt.executeQuery(SELECT_ALL_SQL);
 
             while (rs.next()) {
-                User user = new User(rs.getString(2),
-                                     rs.getString(3),
-                                     rs.getByte(4));
+                User user = new User(rs.getString(2), rs.getString(3), rs.getByte(4));
                 user.setId(rs.getLong(1));
                 result.add(user);
             }
