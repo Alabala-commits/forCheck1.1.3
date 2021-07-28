@@ -81,8 +81,7 @@ public class UserDaoJDBCImpl implements UserDao {
             conn.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
             conn.setAutoCommit(false);
 
-            try (Statement stmt = conn.createStatement();
-                 ResultSet rs = stmt.executeQuery("SELECT * FROM usersTable")) {
+            try (ResultSet rs = conn.createStatement().executeQuery("SELECT * FROM usersTable")) {
 
                 while (rs.next()) {
                     User user = new User(rs.getString(2), rs.getString(3), rs.getByte(4));
