@@ -1,4 +1,5 @@
 import model.User;
+import service.UserService;
 import service.UserServiceImpl;
 
 import java.util.List;
@@ -7,7 +8,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        UserServiceImpl userService = new UserServiceImpl();
+        UserService userService = new UserServiceImpl();
         userService.createUsersTable();
 
         User user1 = new User("Gordan", "Freeman", (byte) 32);
@@ -23,7 +24,7 @@ public class Main {
         userService.dropUsersTable();
     }
 
-    private static void addUsersAndPrintInfo(UserServiceImpl userService, User ... users) {
+    private static void addUsersAndPrintInfo(UserService userService, User ... users) {
         for (User user : users) {
             userService.saveUser(user.getName(), user.getLastName(), user.getAge());
             System.out.println("User с именем – \"" + user.getName() + "\" добавлен в базу данных");
