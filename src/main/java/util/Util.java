@@ -1,9 +1,9 @@
 package util;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
+
 import java.sql.*;
 
 public class Util {
@@ -13,8 +13,12 @@ public class Util {
     static final String PASSWORD = "Password";
 
     public static Connection connection() throws SQLException {
+        return DriverManager.getConnection(URL, LOGIN, PASSWORD);
+    }
 
-        Connection conn = DriverManager.getConnection(URL, LOGIN, PASSWORD);
-        return conn;
+    public static SessionFactory sessionFactory() {
+        Configuration cfg = new Configuration().configure();
+        return cfg.buildSessionFactory(new StandardServiceRegistryBuilder().applySettings(cfg.getProperties())
+                                                                           .build());
     }
 }
