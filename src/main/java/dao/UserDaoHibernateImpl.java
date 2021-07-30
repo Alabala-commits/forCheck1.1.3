@@ -1,13 +1,17 @@
 package dao;
 
-import dao.UserDao;
 import model.User;
+import org.hibernate.SessionFactory;
+import util.Util;
 
 import java.util.List;
 
 public class UserDaoHibernateImpl implements UserDao {
-    public UserDaoHibernateImpl() {
 
+    SessionFactory sessionFactory = null;
+
+    public UserDaoHibernateImpl() {
+        this.sessionFactory = Util.sessionFactory();
     }
 
 
