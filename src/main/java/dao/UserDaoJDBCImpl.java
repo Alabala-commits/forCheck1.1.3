@@ -104,14 +104,14 @@ public class UserDaoJDBCImpl implements UserDao {
         executionSql("TRUNCATE TABLE usersTable");
     }
 
-    private void executionSql(String SQL) {
+    private void executionSql(String sql) {
 
         try (Connection conn = Util.connection()) {
             conn.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
             conn.setAutoCommit(false);
 
             try (Statement stmt = conn.createStatement()) {
-                stmt.executeUpdate(SQL);
+                stmt.executeUpdate(sql);
 
                 conn.commit();
             } catch (SQLException e) {

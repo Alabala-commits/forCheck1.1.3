@@ -24,16 +24,16 @@ public class Util {
     public static SessionFactory sessionFactory() throws SQLException {
         if (sessionFactory == null) {
             Properties properties = new Properties();
-            properties.put(Environment.DRIVER, DriverManager.getDriver(URL));
+            properties.put(Environment.DRIVER, "com.mysql.cj.jdbc.Driver");
             properties.put(Environment.URL, URL);
             properties.put(Environment.USER, LOGIN);
             properties.put(Environment.PASS, PASSWORD);
             properties.put(Environment.DIALECT, "org.hibernate.dialect.MySQLDialect");
             properties.put(Environment.SHOW_SQL, "true");
             properties.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread");
-            properties.put(Environment.HBM2DDL_AUTO, "create-drop");
+            properties.put(Environment.HBM2DDL_IMPORT_FILES_SQL_EXTRACTOR, "create-drop");
 
-            Configuration cfg = new Configuration().configure();
+            Configuration cfg = new Configuration();    //  .configure()
             cfg.setProperties(properties);
             cfg.addAnnotatedClass(User.class);
 

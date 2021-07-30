@@ -9,7 +9,10 @@ public class Main {
     public static void main(String[] args) {
 
         UserService userService = new UserServiceImpl();
-//        userService.createUsersTable();
+        userService.dropUsersTable();
+        userService.createUsersTable();
+        userService.dropUsersTable();
+
 //
 //        User user1 = new User("Gordan", "Freeman", (byte) 32);
 //        User user2 = new User("Bailey", "Whitfield", (byte) 77);
