@@ -11,7 +11,7 @@ public class UserDaoHibernateImpl implements UserDao {
     SessionFactory sessionFactory = null;
 
     public UserDaoHibernateImpl() {
-        this.sessionFactory = Util.sessionFactory();
+//        this.sessionFactory = Util.sessionFactory();
     }
 
 
