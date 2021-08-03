@@ -3,15 +3,15 @@ package dao;
 import model.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import util.Util;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserDaoHibernateImpl implements UserDao {
 
-    SessionFactory sessionFactory = null;
+    private SessionFactory sessionFactory = null;
 
     public UserDaoHibernateImpl() {
         initSessionFactory();
@@ -34,39 +34,45 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void saveUser(String name, String lastName, byte age) {
-        Session session = sessionFactory.openSession();
-
-
-
-        session.close();
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            session.persist(new User(name, lastName, age));
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void removeUserById(long id) {
-        Session session = sessionFactory.openSession();
-
-
-
-        session.close();
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            session.delete((User)session.load(User.class, id));
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public List<User> getAllUsers() {
-        Session session = sessionFactory.openSession();
+        List<User> result = new ArrayList<>();
 
-
-
-        session.close();
-        return null;
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            result = session.createQuery("FROM User").list();
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
     @Override
     public void cleanUsersTable() {
-        Session session = sessionFactory.openSession();
-
-
-
-        session.close();
+        for (User user : getAllUsers()) {
+            removeUserById(user.getId());
+        }
     }
 
     private void initSessionFactory() {
@@ -78,20 +84,12 @@ public class UserDaoHibernateImpl implements UserDao {
     }
 
     private void executionSql(String sql) {
-        Session session = sessionFactory.openSession();
-        Transaction tx = null;
-
-        try {
-            tx = session.beginTransaction();
-            session.createSQLQuery(sql).addEntity(User.class);
-            tx.commit();
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            session.createSQLQuery(sql).addEntity(User.class).executeUpdate();
+            session.getTransaction().commit();
         } catch (Exception e) {
-            if (tx != null) {
-                tx.rollback();
-            }
             e.printStackTrace();
-        } finally {
-            session.close();
         }
     }
 }
