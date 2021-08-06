@@ -34,7 +34,7 @@ public class Util {
             properties.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "thread");
             properties.put(Environment.HBM2DDL_IMPORT_FILES_SQL_EXTRACTOR, "create-drop");
 
-            Configuration cfg = new Configuration();    //  .configure()
+            Configuration cfg = new Configuration();
             cfg.setProperties(properties);
             cfg.addAnnotatedClass(User.class);
 

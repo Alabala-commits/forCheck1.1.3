@@ -4,11 +4,20 @@ import dao.UserDao;
 import dao.UserDaoHibernateImpl;
 import model.User;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
 
-    private final UserDao userDao = new UserDaoHibernateImpl();
+    private UserDao userDao = null;
+
+    public UserServiceImpl() {
+        try {
+            this.userDao = new UserDaoHibernateImpl();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void createUsersTable() {
         userDao.createUsersTable();
